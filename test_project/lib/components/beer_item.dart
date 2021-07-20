@@ -18,7 +18,14 @@ class BeerItem extends StatelessWidget {
           horizontal: windowWidth * 0.075, vertical: windowHeight * 0.02),
       decoration: BoxDecoration(
           color: Theme.of(context).accentColor,
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [BoxShadow(offset: Offset(2, 2), blurRadius: 4.0)],
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).accentColor,
+              Theme.of(context).hintColor
+            ],
+          )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,11 +37,11 @@ class BeerItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: windowWidth * 0.4,
+                  width: windowWidth * 0.4,
                   child: Text(
-                beer!.name,
-                style: Theme.of(context).textTheme.bodyText1,
-              )),
+                    beer!.name,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  )),
               Text(
                 beer!.alcohol,
                 style: Theme.of(context).textTheme.bodyText1,
