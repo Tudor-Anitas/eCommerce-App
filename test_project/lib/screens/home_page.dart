@@ -4,6 +4,7 @@ import 'package:test_project/components/beer.dart';
 import 'package:test_project/components/beer_item.dart';
 import 'package:test_project/components/refresh_list.dart';
 import 'package:test_project/providers/beer_provider.dart';
+import 'package:test_project/screens/details_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,8 +36,14 @@ class _HomePageState extends State<HomePage> {
                 return ListView.builder(
                     itemCount: beerList.data!.length,
                     itemBuilder: (context, index) {
-                      return BeerItem(
-                        beer: beerList.data![index],
+                      return GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailsPage(index))),
+                        child: BeerItem(
+                          beer: beerList.data![index],
+                        ),
                       );
                     });
               }
