@@ -25,7 +25,7 @@ class BeerItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            beer!.brand,
+            beer!.brand!,
             style: Theme.of(context).textTheme.headline5,
           ),
           Row(
@@ -34,11 +34,11 @@ class BeerItem extends StatelessWidget {
               Container(
                   width: windowWidth * 0.4,
                   child: Text(
-                    beer!.name,
+                    beer!.name!,
                     style: Theme.of(context).textTheme.bodyText1,
                   )),
               Text(
-                beer!.alcohol,
+                beer!.alcohol!,
                 style: Theme.of(context).textTheme.bodyText1,
               )
             ],

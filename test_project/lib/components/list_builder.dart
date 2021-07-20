@@ -10,6 +10,7 @@ class ListBuilder extends StatefulWidget {
   @override
   _ListBuilderState createState() => _ListBuilderState();
 }
+
 // TODO rename the class
 class _ListBuilderState extends State<ListBuilder> {
   @override
@@ -36,11 +37,14 @@ class _ListBuilderState extends State<ListBuilder> {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      // TODO 
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DetailsPage(index))),
+                      onTap: () {
+                        Provider.of<BeerProvider>(context, listen: false)
+                            .setSelectedItemId(snapshot.data![index].id);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailsPage()));
+                      },
                       child: BeerItem(
                         beer: snapshot.data![index],
                       ),

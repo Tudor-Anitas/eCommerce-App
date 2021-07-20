@@ -5,35 +5,37 @@ import 'package:http/http.dart' as http;
 
 class BeerProvider extends ChangeNotifier {
   List<BeerModel> _beerList = [];
+  int? _selectedItemId;
 
   List<BeerModel> get beerList => _beerList;
   BeerModel getBeerFromList(int index) => beerList[index];
+  int? get selectedItemId => _selectedItemId;
 
   Future<List<BeerModel>?> updateBeerList() async {
     try {
       var response = await http.get(Uri.parse(
           'https://random-data-api.com/api/beer/random_beer?size=10'));
-      var responseCode = response.statusCode;
 
-      if (responseCode == 200) {
+      if (response.statusCode == 200) {
         _beerList = [];
+        var jsonResult = json.decode(response.body);
+        jsonResult.forEach((v) {
+          beerList.add(BeerModel.fromJson(v));
+        });
 
-        var decodedBody = json.decode(response.body);
-        for (int i = 0; i < 10; i++) {
-          beerList!.add(BeerModel(
-              id: decodedBody[i]['id'],
-              brand: decodedBody[i]['brand'],
-              name: decodedBody[i]['name'],
-              alcohol: decodedBody[i]['alcohol'],
-              ibu: decodedBody[i]['ibu'],
-              malts: decodedBody[i]['malts'],
-              style: decodedBody[i]['style'],
-              yeast: decodedBody[i]['yeast']));
-        }
         return beerList;
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  setSelectedItemId(int? id) {
+    _selectedItemId = id;
+    notifyListeners();
+  }
+
+  getSelectedItem() {
+    return _beerList.firstWhere((element) => element.id == _selectedItemId);
   }
 }
