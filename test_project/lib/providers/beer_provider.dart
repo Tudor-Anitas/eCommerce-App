@@ -4,22 +4,23 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class BeerProvider extends ChangeNotifier {
-  List<Beer>? beerList;
+  List<BeerModel> _beerList = [];
 
-  Beer getBeerFromList(int index) => beerList![index];
+  List<BeerModel> get beerList => _beerList;
+  BeerModel getBeerFromList(int index) => beerList[index];
 
-  Future<List<Beer>?> updateBeerList() async {
+  Future<List<BeerModel>?> updateBeerList() async {
     try {
       var response = await http.get(Uri.parse(
           'https://random-data-api.com/api/beer/random_beer?size=10'));
       var responseCode = response.statusCode;
 
       if (responseCode == 200) {
-        beerList = [];
+        _beerList = [];
 
         var decodedBody = json.decode(response.body);
         for (int i = 0; i < 10; i++) {
-          beerList!.add(Beer(
+          beerList!.add(BeerModel(
               id: decodedBody[i]['id'],
               brand: decodedBody[i]['brand'],
               name: decodedBody[i]['name'],

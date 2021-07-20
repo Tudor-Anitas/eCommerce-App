@@ -14,8 +14,8 @@ class DetailsPage extends StatelessWidget {
     double windowHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Consumer<BeerProvider>(builder: (context, beerProvider, child) {
-        Beer currentBeer = beerProvider.getBeerFromList(index);
+      body: Consumer<BeerProvider>(builder: (_, beerProvider, __) {
+        BeerModel currentBeer = beerProvider.getBeerFromList(index);
 
         return Container(
           width: windowWidth,
@@ -31,7 +31,9 @@ class DetailsPage extends StatelessWidget {
                 currentBeer.name,
                 style: Theme.of(context).textTheme.headline6,
               ),
-              SizedBox(height: windowHeight * 0.1,),
+              SizedBox(
+                height: windowHeight * 0.1,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -52,19 +54,19 @@ class DetailsPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    width: windowWidth * 0.45,
-                    height: windowHeight * 0.3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(currentBeer.id.toString()),
-                        Text(currentBeer.style),
-                        Text(currentBeer.yeast),
-                        Text(currentBeer.malts),
-                        Text(currentBeer.ibu),
-                        Text(currentBeer.alcohol)
-                      ]))
+                      width: windowWidth * 0.45,
+                      height: windowHeight * 0.3,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(currentBeer.id.toString()),
+                            Text(currentBeer.style),
+                            Text(currentBeer.yeast),
+                            Text(currentBeer.malts),
+                            Text(currentBeer.ibu),
+                            Text(currentBeer.alcohol)
+                          ]))
                 ],
               )
             ],

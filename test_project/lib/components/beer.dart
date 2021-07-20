@@ -1,4 +1,5 @@
-class Beer {
+
+class BeerModel {
   int id;
   String brand;
   String name;
@@ -8,7 +9,7 @@ class Beer {
   String ibu;
   String alcohol;
 
-  Beer(
+  BeerModel(
       {required this.id,
       required this.brand,
       required this.name,

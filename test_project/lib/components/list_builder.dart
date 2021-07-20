@@ -10,7 +10,7 @@ class ListBuilder extends StatefulWidget {
   @override
   _ListBuilderState createState() => _ListBuilderState();
 }
-
+// TODO rename the class
 class _ListBuilderState extends State<ListBuilder> {
   @override
   Widget build(BuildContext context) {
@@ -23,25 +23,26 @@ class _ListBuilderState extends State<ListBuilder> {
       child: FutureBuilder(
         future:
             Provider.of<BeerProvider>(context, listen: false).updateBeerList(),
-        builder: (context, AsyncSnapshot<List<Beer>?> beerList) {
-          if (beerList.connectionState == ConnectionState.waiting) {
+        builder: (context, AsyncSnapshot<List<BeerModel>?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
-          } else if (beerList.connectionState == ConnectionState.done) {
-            if (beerList.hasError) {
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
               return Center(
-                child: Text('${beerList.error}'),
+                child: Text('${snapshot.error}'),
               );
-            } else if (beerList.hasData) {
+            } else if (snapshot.hasData) {
               return ListView.builder(
-                  itemCount: beerList.data!.length,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
+                      // TODO 
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => DetailsPage(index))),
                       child: BeerItem(
-                        beer: beerList.data![index],
+                        beer: snapshot.data![index],
                       ),
                     );
                   });

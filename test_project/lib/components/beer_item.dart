@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:test_project/components/beer.dart';
 
 class BeerItem extends StatelessWidget {
-  final Beer? beer;
+  final BeerModel? beer;
 
   BeerItem({this.beer});
 
