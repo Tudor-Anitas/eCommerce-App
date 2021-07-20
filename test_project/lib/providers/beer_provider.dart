@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 class BeerProvider extends ChangeNotifier {
   List<Beer>? beerList;
 
-  List<Beer>? get getBeerList => beerList;
   Beer getBeerFromList(int index) => beerList![index];
 
   Future<List<Beer>?> updateBeerList() async {

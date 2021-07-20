@@ -17,15 +17,10 @@ class BeerItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(
           horizontal: windowWidth * 0.075, vertical: windowHeight * 0.02),
       decoration: BoxDecoration(
-          color: Theme.of(context).accentColor,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          boxShadow: [BoxShadow(offset: Offset(2, 2), blurRadius: 4.0)],
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).accentColor,
-              Theme.of(context).hintColor
-            ],
-          )),
+        color: Theme.of(context).accentColor,
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        boxShadow: [BoxShadow(offset: Offset(2, 2), blurRadius: 4.0)],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

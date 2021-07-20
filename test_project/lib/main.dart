@@ -5,7 +5,8 @@ import 'package:test_project/screens/home_page.dart';
 import 'package:test_project/theme.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider<CustomTheme>(
+      create: (context) => CustomTheme(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       create: (context) => BeerProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: CustomTheme.customTheme,
+        theme: Provider.of<CustomTheme>(context).currentTheme,
         home: HomePage(),
       ),
     );
