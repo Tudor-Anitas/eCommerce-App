@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/components/beer.dart';
+import 'package:test_project/models/beer_model.dart';
 
 class BeerItem extends StatelessWidget {
   final BeerModel? beer;

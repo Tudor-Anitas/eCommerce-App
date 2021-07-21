@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:test_project/components/beer.dart';
+import 'package:test_project/models/beer_model.dart';
 import 'package:test_project/components/beer_item.dart';
-import 'package:test_project/components/refresh_list.dart';
 import 'package:test_project/providers/beer_provider.dart';
-import 'package:test_project/screens/details_page.dart';
+import 'package:test_project/screens/details_page/details_page.dart';
 
-class ListBuilder extends StatefulWidget {
+class BeerList extends StatefulWidget {
   @override
-  _ListBuilderState createState() => _ListBuilderState();
+  _BeerListState createState() => _BeerListState();
 }
 
-// TODO rename the class
-class _ListBuilderState extends State<ListBuilder> {
+class _BeerListState extends State<BeerList> {
   @override
   Widget build(BuildContext context) {
-    return RefreshList(
+    return RefreshIndicator(
       onRefresh: () async {
         await Provider.of<BeerProvider>(context, listen: false)
             .updateBeerList();
@@ -24,7 +22,7 @@ class _ListBuilderState extends State<ListBuilder> {
       child: FutureBuilder(
         future:
             Provider.of<BeerProvider>(context, listen: false).updateBeerList(),
-        builder: (context, AsyncSnapshot<List<BeerModel>?> snapshot) {
+        builder: (context, AsyncSnapshot<List<BeerModel>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.connectionState == ConnectionState.done) {

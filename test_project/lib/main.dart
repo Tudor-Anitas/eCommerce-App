@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/beer_provider.dart';
-import 'package:test_project/screens/home_page.dart';
+import 'package:test_project/screens/home_page/home_page.dart';
 import 'package:test_project/theme.dart';
 
 void main() {

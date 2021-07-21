@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:test_project/components/beer.dart';
+import 'package:test_project/models/beer_model.dart';
 import 'package:test_project/providers/beer_provider.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -45,13 +45,23 @@ class _DetailsPageState extends State<DetailsPage> {
                 _item!.brand!,
                 style: Theme.of(context).textTheme.headline3,
               ),
-              Text(
-                _item!.name!,
-                style: Theme.of(context).textTheme.headline6,
+              Container(
+                margin: EdgeInsets.only(bottom: _windowHeight! * 0.1),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Theme.of(context).accentColor, width: 5))),
+                child: Text(
+                  _item!.name!,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
               buildRowSection("Id", _item!.id!.toString()),
               buildRowSection("Style", _item!.style!),
-              buildRowSection("yeast", _item!.yeast!),
+              buildRowSection("Yeast", _item!.yeast!),
+              buildRowSection('Malts', _item!.malts!),
+              buildRowSection('Ibu', _item!.ibu!),
+              buildRowSection('Alcohol', _item!.alcohol!),
             ],
           ),
         );
@@ -59,19 +69,25 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
+  
+
   buildRowSection(String label, String value) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
-      alignment: Alignment.centerLeft,
-      // decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+      padding: EdgeInsets.symmetric(horizontal: _windowWidth! * 0.2),
+      margin: EdgeInsets.only(bottom: _windowHeight! * 0.01),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: _windowWidth! / 4,
-            padding: EdgeInsets.only(right: 30),
-            child: Text(label),
+            alignment: Alignment.centerRight,
+            width: _windowWidth! * 0.25,
+            child: Text(
+              label,
+              textAlign: TextAlign.end,
+            ),
           ),
           Container(
+            width: _windowWidth! * 0.25,
             child: Text(value),
           )
         ],
@@ -81,17 +97,17 @@ class _DetailsPageState extends State<DetailsPage> {
 }
 
 //models
-   //class1_model.dart
-   //class1_model.dart
+//class1_model.dart
+//class1_model.dart
 
 // screens
-   // listing_page 
-      // beer_item.dart
-      // listing_page.dart
+// listing_page
+// beer_item.dart
+// listing_page.dart
 
 //components
-  // form_components
-    //custom_text_field_form
-    //text_area_form
-  // widget_compoments
-  // slider_components
+// form_components
+//custom_text_field_form
+//text_area_form
+// widget_compoments
+// slider_components

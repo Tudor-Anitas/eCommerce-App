@@ -1,33 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:test_project/components/beer.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:test_project/api_services/random_beer_api.dart';
+import 'package:test_project/models/beer_model.dart';
 
 class BeerProvider extends ChangeNotifier {
   List<BeerModel> _beerList = [];
   int? _selectedItemId;
 
   List<BeerModel> get beerList => _beerList;
-  BeerModel getBeerFromList(int index) => beerList[index];
   int? get selectedItemId => _selectedItemId;
 
-  Future<List<BeerModel>?> updateBeerList() async {
-    try {
-      var response = await http.get(Uri.parse(
-          'https://random-data-api.com/api/beer/random_beer?size=10'));
-
-      if (response.statusCode == 200) {
-        _beerList = [];
-        var jsonResult = json.decode(response.body);
-        jsonResult.forEach((v) {
-          beerList.add(BeerModel.fromJson(v));
-        });
-
-        return beerList;
-      }
-    } catch (e) {
-      print(e);
-    }
+  Future<List<BeerModel>> updateBeerList() async {
+    _beerList = await fetchBeerList();
+    return _beerList;
   }
 
   setSelectedItemId(int? id) {
