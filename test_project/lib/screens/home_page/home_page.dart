@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/screens/home_page/beer_list.dart';
+import 'package:test_project/screens/home_page/category_list.dart';
 import 'package:test_project/screens/home_page/theme_switch.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: [
           ThemeSwitch(),
-          Container(height: windowHeight * 0.9, child: BeerList()),
+          Container(height: windowHeight * 0.9, child: CategoryList()),
         ],
       ),
     ));

@@ -1,19 +1,19 @@
 import 'package:http/http.dart';
-import 'package:test_project/models/beer_model.dart';
+import 'package:test_project/models/item_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<List<BeerModel>> fetchBeerList() async {
-  List<BeerModel> apiList = [];
+Future<List<ItemModel>> fetchItemList() async {
+  List<ItemModel> apiList = [];
   try {
-    Response response = await http.get(
-        Uri.parse('https://random-data-api.com/api/beer/random_beer?size=10'));
+    
+    Response response = await http.get(Uri.parse(
+        'https://random-data-api.com/api/commerce/random_commerce?size=30'));
 
     if (response.statusCode == 200) {
       var jsonResult = json.decode(response.body);
       jsonResult.forEach((v) {
-        apiList.add(BeerModel.fromJson(v));
-        
+        apiList.add(ItemModel.fromJson(v));
       });
 
       return apiList;
