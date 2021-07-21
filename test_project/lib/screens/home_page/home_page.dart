@@ -13,13 +13,13 @@ class _HomePageState extends State<HomePage> {
     double windowHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        //TODO app bar, safe area
-        body: Column(
-      children: [
-        SizedBox(height: windowHeight * 0.03),
-        ThemeSwitch(),
-        Container(height: windowHeight * 0.9, child: BeerList()),
-      ],
+        body: SafeArea(
+      child: Column(
+        children: [
+          ThemeSwitch(),
+          Container(height: windowHeight * 0.9, child: BeerList()),
+        ],
+      ),
     ));
   }
 }

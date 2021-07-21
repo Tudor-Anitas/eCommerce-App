@@ -69,8 +69,6 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  
-
   buildRowSection(String label, String value) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: _windowWidth! * 0.2),
@@ -95,19 +93,3 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 }
-
-//models
-//class1_model.dart
-//class1_model.dart
-
-// screens
-// listing_page
-// beer_item.dart
-// listing_page.dart
-
-//components
-// form_components
-//custom_text_field_form
-//text_area_form
-// widget_compoments
-// slider_components
