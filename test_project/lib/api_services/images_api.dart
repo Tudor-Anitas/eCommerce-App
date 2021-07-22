@@ -13,7 +13,7 @@ Future<List<String>> fetchItemImages() async {
     if (response.statusCode == 200) {
       var jsonResult = json.decode(response.body);
 
-      jsonResult.forEach((element) => _imageUrls.add(element['url']));
+      jsonResult.forEach((element) => _imageUrls.add(element['download_url']));
     }
   } catch (e) {
     print(e);

@@ -5,22 +5,25 @@ import 'package:test_project/models/item_model.dart';
 
 class ItemProvider extends ChangeNotifier {
   List<ItemModel> _itemList = [];
+  List<ItemModel> _categoryItems = [];
   List<String> _categoryList = [];
-  List<String> _materialList = [];
-  List<String> _colorList = [];
-  int? _selectedItemId;
+  List<String> _materialListForSelectedCategory = [];
+  List<String> _colorListForSelectedCategory = [];
   String? _selectedCategory;
 
   List<ItemModel> get itemList => _itemList;
-  int? get selectedItemId => _selectedItemId;
+  List<ItemModel> get categoryItems => _categoryItems;
+  List<String> get colorListForSelectedCategory =>
+      _colorListForSelectedCategory;
+  List<String> get materialListForSelectedCategory =>
+      _materialListForSelectedCategory;
   String? get selectedCategory => _selectedCategory;
 
   Future<List<String>> updateCategoryList() async {
     _itemList.clear();
     _categoryList.clear();
-    _materialList.clear();
-    _colorList.clear();
-
+    _colorListForSelectedCategory.clear();
+    _materialListForSelectedCategory.clear();
     _itemList = await fetchItemList();
     var _itemImages = await fetchItemImages();
     int i = 0;
@@ -29,34 +32,40 @@ class ItemProvider extends ChangeNotifier {
       element.image = _itemImages[i++];
       if (!_categoryList.contains(element.department)) {
         _categoryList.add(element.department!);
-      } else if (!_materialList.contains(element.material)) {
-        _materialList.add(element.material!);
-      } else if (!_colorList.contains(element.color)) {
-        _colorList.add(element.color!);
       }
     });
 
     return _categoryList;
   }
 
-  setSelectedItemId(int? id) {
-    _selectedItemId = id;
-    notifyListeners();
-  }
-
   setSelectedCategory(String? department) {
+    _colorListForSelectedCategory.clear();
+    _materialListForSelectedCategory.clear();
     _selectedCategory = department;
-    notifyListeners();
-  }
-
-  getSelectedItem() {
-    return _itemList
-        .firstWhere((element) => element.department == _selectedItemId);
-  }
-
-  getCategoryItems() {
-    return _itemList
+    _categoryItems = _itemList
         .where((element) => element.department == _selectedCategory)
         .toList();
+    _categoryItems.forEach((element) {
+      if (!_colorListForSelectedCategory.contains(element.color)) {
+        _colorListForSelectedCategory.add(element.color!);
+      }
+      if (!_materialListForSelectedCategory.contains(element.material)) {
+        _materialListForSelectedCategory.add(element.material!);
+      }
+    });
+    notifyListeners();
+  }
+
+  applyColorFilter(String? color) {
+    _categoryItems =
+        _categoryItems.where((element) => element.color == color).toList();
+    notifyListeners();
+  }
+
+  applyMaterialFilter(String? material) {
+    _categoryItems = _categoryItems
+        .where((element) => element.material == material)
+        .toList();
+    notifyListeners();
   }
 }

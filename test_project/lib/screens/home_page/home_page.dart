@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/screens/home_page/category_list.dart';
 import 'package:test_project/screens/home_page/theme_switch.dart';
+import 'package:test_project/screens/item_details_page/item_details_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,8 +17,20 @@ class _HomePageState extends State<HomePage> {
         body: SafeArea(
       child: Column(
         children: [
-          ThemeSwitch(),
-          Container(height: windowHeight * 0.9, child: CategoryList()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetailsPage())),
+                              child: Text(
+                  'Categories',
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+              ),
+              ThemeSwitch(),
+            ],
+          ),
+          Container(height: windowHeight * 0.88, child: CategoryList()),
         ],
       ),
     ));

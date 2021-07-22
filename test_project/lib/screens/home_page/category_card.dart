@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -9,16 +11,38 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double windowWidth = MediaQuery.of(context).size.width;
     double windowHeight = MediaQuery.of(context).size.height;
-    return Container(
-        height: windowHeight * 0.25,
-        padding: EdgeInsets.only(top: windowHeight * 0.03, left: windowWidth * 0.03),
-        margin: EdgeInsets.symmetric(
-            horizontal: windowWidth * 0.02, vertical: windowHeight * 0.01),
-        decoration: BoxDecoration(
-          color: Theme.of(context).accentColor,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [BoxShadow(offset: Offset(2, 2), blurRadius: 4.0)],
-        ),
-        child: Text(categoryName!, style: Theme.of(context).textTheme.headline5,));
+    return ClipRRect(
+      borderRadius: BorderRadius.zero,
+      child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Container(
+              height: windowHeight * 0.25,
+              padding: EdgeInsets.only(
+                  top: windowHeight * 0.03,
+                  left: windowWidth * 0.03,
+                  right: windowWidth * 0.03),
+              margin: EdgeInsets.symmetric(
+                  horizontal: windowWidth * 0.02,
+                  vertical: windowHeight * 0.01),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft,
+                  stops: [0.0, 1.0],
+                  colors: [
+                  Theme.of(context).cardColor.withOpacity(0.5),
+                  Theme.of(context).cardColor.withOpacity(0.2),
+                ]),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                border: Border.all(
+                        width: 1.5,
+                        color: Theme.of(context).cardColor.withOpacity(0.2),
+                      )
+              ),
+              child: Text(
+                categoryName!,
+                style: Theme.of(context).textTheme.headline5,
+              ))),
+    );
   }
 }

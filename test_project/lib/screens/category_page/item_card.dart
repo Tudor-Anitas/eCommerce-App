@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/models/item_model.dart';
+import 'package:test_project/screens/category_page/add_to_cart_button.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemModel? currentItem;
@@ -9,7 +10,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double windowHeight = MediaQuery.of(context).size.height;
-    print(currentItem!.image!);
+
     return Container(
       margin: EdgeInsets.all(windowHeight * 0.01),
       decoration: BoxDecoration(
@@ -18,21 +19,37 @@ class ItemCard extends StatelessWidget {
           boxShadow: [BoxShadow(offset: Offset(2, 2), blurRadius: 4.0)]),
       child: Column(
         children: [
-          // TODO find a better image API
           AspectRatio(
             aspectRatio: 1 / 1,
-            //child: Image.network(currentItem!.image!)
-          ),
-          AspectRatio(aspectRatio: 1 / 1, child: Container(
-            child: Column(
-              children: [
-                Text(currentItem!.productName!),
-                Text(currentItem!.color!),
-                Text(currentItem!.material!),
-                Text(currentItem!.price!.toString(),style: Theme.of(context).textTheme.subtitle1,)
-              ],
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                      image: NetworkImage(currentItem!.image!),
+                      fit: BoxFit.fill)),
             ),
-            ))
+          ),
+          AspectRatio(
+              aspectRatio: 1 / 1.05,
+              child: Container(
+                padding: EdgeInsets.only(top: windowHeight * 0.03),
+                child: Column(
+                  children: [
+                    Container(
+                        child: Text(
+                      currentItem!.productName!,
+                      textAlign: TextAlign.center,
+                    )),
+                    Text(currentItem!.color!),
+                    Text(currentItem!.material!),
+                    Text(
+                      '${currentItem!.price!.toString()} ron',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    AddToCartButton()
+                  ],
+                ),
+              ))
         ],
       ),
     );
