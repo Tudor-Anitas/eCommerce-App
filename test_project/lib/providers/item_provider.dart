@@ -10,6 +10,7 @@ class ItemProvider extends ChangeNotifier {
   List<String> _materialListForSelectedCategory = [];
   List<String> _colorListForSelectedCategory = [];
   String? _selectedCategory;
+  ItemModel? _selectedItem;
 
   List<ItemModel> get itemList => _itemList;
   List<ItemModel> get categoryItems => _categoryItems;
@@ -18,6 +19,7 @@ class ItemProvider extends ChangeNotifier {
   List<String> get materialListForSelectedCategory =>
       _materialListForSelectedCategory;
   String? get selectedCategory => _selectedCategory;
+  ItemModel? get selectedItem => _selectedItem;
 
   Future<List<String>> updateCategoryList() async {
     _itemList.clear();
@@ -54,6 +56,10 @@ class ItemProvider extends ChangeNotifier {
       }
     });
     notifyListeners();
+  }
+
+  setSelectedItem(int? itemId){
+    _selectedItem = _categoryItems.firstWhere((element) => element.id == itemId);
   }
 
   applyColorFilter(String? color) {

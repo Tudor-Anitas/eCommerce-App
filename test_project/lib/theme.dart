@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// TODO find better color themes for dark and light
+
 class CustomTheme with ChangeNotifier {
   bool isDarkTheme = true;
 
   static ThemeData get darkTheme => ThemeData(
-      scaffoldBackgroundColor: Color(0xff222831),
-      backgroundColor: Color(0xff222831),
+      scaffoldBackgroundColor: Color(0xff393E46),
+      backgroundColor: Color(0xffFF4B2B),
       accentColor: Color(0xff393E46),
       hintColor: Color(0xffEEEEEE),
-      cardColor: Colors.teal,
+      cardColor: Color(0xffEEEEEE),
       toggleableActiveColor: Colors.teal,
       iconTheme: IconThemeData(color: Color(0xffEEEEEE)),
       fontFamily: GoogleFonts.poppins().fontFamily,
       textTheme: TextTheme(
           headline3: TextStyle(color: Color(0xffEEEEEE)),
+          headline4: TextStyle(color: Color(0xffEEEEEE)),
           headline5: TextStyle(color: Color(0xffEEEEEE)),
           headline6: TextStyle(color: Color(0xffEEEEEE)),
           bodyText2: TextStyle(color: Color(0xffEEEEEE)),
           bodyText1: TextStyle(
-              color: Colors.red[600],
-              fontSize: 22,
-              fontWeight: FontWeight.w500),
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w700),
           subtitle1: TextStyle(
               color: Color(0xffEEEEEE),
-              fontSize: 14,
+              fontSize: 11,
               fontWeight: FontWeight.w500)));
 
   static ThemeData get lightTheme => ThemeData(
@@ -37,7 +38,7 @@ class CustomTheme with ChangeNotifier {
       textTheme: TextTheme(
         subtitle1: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         bodyText1: TextStyle(
-            color: Colors.red[600], fontSize: 22, fontWeight: FontWeight.w500),
+            color: Colors.amber[800], fontSize: 20, fontWeight: FontWeight.w700),
       ));
   ThemeData get currentTheme => isDarkTheme ? darkTheme : lightTheme;
 

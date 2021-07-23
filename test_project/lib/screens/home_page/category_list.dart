@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:test_project/screens/category_page/category_page.dart';
 import 'package:test_project/screens/home_page/category_card.dart';
 import 'package:test_project/providers/item_provider.dart';
+
 class CategoryList extends StatefulWidget {
   @override
   _CategoryListState createState() => _CategoryListState();
@@ -29,26 +30,28 @@ class _CategoryListState extends State<CategoryList> {
                 child: Text('${snapshot.error}'),
               );
             } else if (snapshot.hasData) {
-              return GridView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Provider.of<ItemProvider>(context, listen: false)
-                          .setSelectedCategory(snapshot.data![index]);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CategoryPage()));
-                    },
-                    child: CategoryCard(
-                      categoryName: snapshot.data![index],
-                    ),
-                  );
-                },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    ),
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: GridView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Provider.of<ItemProvider>(context, listen: false)
+                            .setSelectedCategory(snapshot.data![index]);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryPage()));
+                      },
+                      child: CategoryCard(
+                        categoryName: snapshot.data![index],
+                      ),
+                    );
+                  },
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, crossAxisSpacing: 10),
+                ),
               );
             }
           }

@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test_project/providers/item_provider.dart';
+import 'package:test_project/screens/item_details_page/details_card.dart';
 
 class ItemDetailsPage extends StatefulWidget {
   @override
@@ -10,35 +13,39 @@ class ItemDetailsPage extends StatefulWidget {
 class _ItemDetailsPageState extends State<ItemDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.0),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 20.0,
-                  sigmaY: 20.0,
-                ),
-                child: Container(
-                  width: 360,
-                  height: 200,
-                  decoration: BoxDecoration(
-                      //color: Colors.white.withOpacity(0.2),
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: [0.0, 1.0],
-                        colors: [
-                        Theme.of(context).accentColor,
-                        Theme.of(context).backgroundColor
-                      ]),
-                      borderRadius: BorderRadius.circular(16.0),
-                      border: Border.all(
-                        width: 1.5,
-                        color: Colors.white.withOpacity(0.2),
-                      )),
-                ),
-              ))),
+    double windowWidth = MediaQuery.of(context).size.width;
+    double windowHeight = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Stack(
+        children: [
+          Image.asset('category_background.jpg',
+              width: windowWidth, height: windowHeight, fit: BoxFit.cover),
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Consumer<ItemProvider>(
+                  builder: (_, provider, __) => Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: windowHeight * 0.33,
+                          width: windowWidth,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: NetworkImage(
+                                      provider.selectedItem!.image!))),
+                        ),
+                        DetailsCard()
+                      ],
+                    ),
+                  ),
+                )),
+          )
+        ],
+      ),
     );
   }
 }
