@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/screens/category_page/category_page.dart';
 import 'package:test_project/screens/home_page/category_card.dart';
@@ -41,8 +42,10 @@ class _CategoryListState extends State<CategoryList> {
                             .setSelectedCategory(snapshot.data![index]);
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => CategoryPage()));
+                            PageTransition(
+                                type: PageTransitionType.fade,
+                                curve: Curves.easeInOutQuart,
+                                child: CategoryPage()));
                       },
                       child: CategoryCard(
                         categoryName: snapshot.data![index],

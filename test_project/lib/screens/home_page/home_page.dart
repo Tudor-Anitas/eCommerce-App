@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:test_project/screens/home_page/category_list.dart';
+import 'package:test_project/screens/shooping_cart/shopping_cart_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -40,7 +42,14 @@ class _HomePageState extends State<HomePage> {
                       //ThemeSwitch(),
                       IconButton(
                         icon: Icon(Icons.shopping_bag, size: 30),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.fade,
+                                curve: Curves.easeInOutQuart,
+                                child: ShoppingCartPage()));
+                        },
                       )
                     ],
                   ),

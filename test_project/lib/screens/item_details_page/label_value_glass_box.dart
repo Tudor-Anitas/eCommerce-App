@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class GlassBox extends StatelessWidget {
+class LabelValueGlassBox extends StatelessWidget {
   final String label;
   final String value;
 
-  GlassBox({required this.label, required this.value});
+  LabelValueGlassBox({required this.label, required this.value});
   @override
   Widget build(BuildContext context) {
     double windowWidth = MediaQuery.of(context).size.width;
@@ -25,7 +25,12 @@ class GlassBox extends StatelessWidget {
                   width: 1.5,
                   color: Theme.of(context).cardColor.withOpacity(0.2),
                 )),
-            child: Center(child: Text('$value')),
+            child: Center(
+                child: Container(
+                    child: Text(
+              '$value',
+              textAlign: TextAlign.center,
+            ))),
           ),
           Container(
             padding: EdgeInsets.only(top: 5),

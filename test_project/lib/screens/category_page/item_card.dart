@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/models/item_model.dart';
 import 'package:test_project/providers/item_provider.dart';
@@ -18,9 +19,14 @@ class ItemCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Provider.of<ItemProvider>(context, listen: false).setSelectedItem(currentItem!.id);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ItemDetailsPage()));
+        Provider.of<ItemProvider>(context, listen: false)
+            .setSelectedItem(currentItem!.id);
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.fade,
+                curve: Curves.easeInOutQuart,
+                child: ItemDetailsPage()));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(0),
@@ -64,7 +70,7 @@ class ItemCard extends StatelessWidget {
                             '${currentItem!.price!.toString()} ron',
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
-                          AddToCartButton()
+                          AddToCartButton(currentItem!)
                         ],
                       ),
                     ))

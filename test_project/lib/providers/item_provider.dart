@@ -6,6 +6,7 @@ import 'package:test_project/models/item_model.dart';
 class ItemProvider extends ChangeNotifier {
   List<ItemModel> _itemList = [];
   List<ItemModel> _categoryItems = [];
+  List<ItemModel> _shoppingCart = [];
   List<String> _categoryList = [];
   List<String> _materialListForSelectedCategory = [];
   List<String> _colorListForSelectedCategory = [];
@@ -14,6 +15,7 @@ class ItemProvider extends ChangeNotifier {
 
   List<ItemModel> get itemList => _itemList;
   List<ItemModel> get categoryItems => _categoryItems;
+  List<ItemModel> get shoppingCart => _shoppingCart;
   List<String> get colorListForSelectedCategory =>
       _colorListForSelectedCategory;
   List<String> get materialListForSelectedCategory =>
@@ -58,8 +60,22 @@ class ItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setSelectedItem(int? itemId){
-    _selectedItem = _categoryItems.firstWhere((element) => element.id == itemId);
+  setSelectedItem(int? itemId) {
+    _selectedItem =
+        _categoryItems.firstWhere((element) => element.id == itemId);
+  }
+
+  addToShoppingCart(int? itemId) {
+    setSelectedItem(itemId);
+    if (!_shoppingCart.contains(_selectedItem)) {
+      _shoppingCart.add(_selectedItem!);
+      notifyListeners();
+    }
+  }
+
+  removeFromShoppingCart(int? itemId){
+    _shoppingCart.removeWhere((element) => element.id == itemId);
+    notifyListeners();
   }
 
   applyColorFilter(String? color) {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/item_provider.dart';
 import 'package:test_project/screens/item_details_page/glass_add_to_cart_button.dart';
-import 'package:test_project/screens/item_details_page/glass_box.dart';
+import 'package:test_project/screens/item_details_page/label_value_glass_box.dart';
 
 class DetailsCard extends StatelessWidget {
   @override
@@ -34,17 +34,17 @@ class DetailsCard extends StatelessWidget {
                 Container(
                   child: Text(
                     provider.selectedItem!.productName!,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    GlassBox(
+                    LabelValueGlassBox(
                       label: 'color',
                       value: provider.selectedItem!.color!,
                     ),
-                    GlassBox(
+                    LabelValueGlassBox(
                       label: 'material',
                       value: provider.selectedItem!.material!,
                     )
@@ -53,11 +53,11 @@ class DetailsCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    GlassBox(
+                    LabelValueGlassBox(
                       label: 'department',
                       value: provider.selectedItem!.department!,
                     ),
-                    GlassBox(
+                    LabelValueGlassBox(
                       label: 'promo code',
                       value: provider.selectedItem!.promoCode!,
                     )
