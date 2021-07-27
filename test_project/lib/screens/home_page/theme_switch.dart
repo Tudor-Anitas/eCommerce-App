@@ -18,9 +18,8 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
         Switch(
           onChanged: (value) {
             Provider.of<CustomTheme>(context, listen: false).toggleTheme();
-            setState(() {
-              _isDarkMode = !_isDarkMode;
-            });
+
+            _isDarkMode = !_isDarkMode;
           },
           value: _isDarkMode,
           activeColor: Theme.of(context).toggleableActiveColor,

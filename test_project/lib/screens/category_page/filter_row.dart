@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/item_provider.dart';
 
-class RowFilter extends StatefulWidget {
+class FilterRow extends StatefulWidget {
   @override
-  _RowFilterState createState() => _RowFilterState();
+  _FilterRowState createState() => _FilterRowState();
 }
 
-class _RowFilterState extends State<RowFilter> {
+class _FilterRowState extends State<FilterRow> {
   String? _colorFilter;
   String? _materialFilter;
 
@@ -18,17 +18,16 @@ class _RowFilterState extends State<RowFilter> {
     return Consumer<ItemProvider>(
       builder: (_, provider, __) {
         return Container(
-          height: windowHeight * 0.05,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text('filters'),
               Container(
-                  width: windowWidth * 0.25,
-                  height: windowHeight * 0.025,
-                  margin: EdgeInsets.only(left: windowWidth * 0.1),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
+                width: windowWidth * 0.25,
+                height: windowHeight * 0.025,
+                margin: EdgeInsets.only(left: windowWidth * 0.1),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
                       isDense: true,
                       dropdownColor: Theme.of(context).accentColor,
                       hint: Text('color'),
@@ -37,32 +36,31 @@ class _RowFilterState extends State<RowFilter> {
                           .map((color) => DropdownMenuItem(
                               child: Text(color), value: color))
                           .toList(),
-                      onChanged: (String? newColor) => setState(() {
+                      onChanged: (String? newColor) {
                         Provider.of<ItemProvider>(context, listen: false)
                             .applyColorFilter(newColor);
                         _colorFilter = newColor;
                       }),
-                    ),
-                  )),
+                ),
+              ),
               Container(
                   width: windowWidth * 0.25,
                   height: windowHeight * 0.025,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton(
-                      isDense: true,
-                      dropdownColor: Theme.of(context).accentColor,
-                      hint: Text('material'),
-                      value: _materialFilter,
-                      items: provider.materialListForSelectedCategory
-                          .map((material) => DropdownMenuItem(
-                              child: Text(material), value: material))
-                          .toList(),
-                      onChanged: (String? newMaterial) => setState(() {
-                        Provider.of<ItemProvider>(context, listen: false)
-                            .applyMaterialFilter(newMaterial);
-                        _materialFilter = newMaterial;
-                      }),
-                    ),
+                        isDense: true,
+                        dropdownColor: Theme.of(context).accentColor,
+                        hint: Text('material'),
+                        value: _materialFilter,
+                        items: provider.materialListForSelectedCategory
+                            .map((material) => DropdownMenuItem(
+                                child: Text(material), value: material))
+                            .toList(),
+                        onChanged: (String? newMaterial) {
+                          Provider.of<ItemProvider>(context, listen: false)
+                              .applyMaterialFilter(newMaterial);
+                          _materialFilter = newMaterial;
+                        }),
                   )),
               Container(
                 child: MaterialButton(
@@ -70,7 +68,10 @@ class _RowFilterState extends State<RowFilter> {
                     Provider.of<ItemProvider>(context, listen: false)
                         .setSelectedCategory(provider.selectedCategory);
                   },
-                  child: Text('clear', style: Theme.of(context).textTheme.bodyText2,),
+                  child: Text(
+                    'clear',
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
                 ),
               )
             ],

@@ -7,6 +7,7 @@ import 'package:test_project/models/item_model.dart';
 import 'package:test_project/providers/item_provider.dart';
 import 'package:test_project/screens/category_page/add_to_cart_button.dart';
 import 'package:test_project/screens/item_details_page/item_details_page.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ItemCard extends StatelessWidget {
   final ItemModel? currentItem;
@@ -45,13 +46,21 @@ class ItemCard extends StatelessWidget {
               children: [
                 AspectRatio(
                   aspectRatio: 1 / 1,
-                  child: Container(
-                    decoration: BoxDecoration(
+                  child: Stack(children: [
+                    Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    Container(
+                      height: windowHeight * 0.3,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                            image: NetworkImage(currentItem!.image!),
-                            fit: BoxFit.fill)),
-                  ),
+                      ),
+                      child: FadeInImage.memoryNetwork(
+                          image: currentItem!.image!,
+                          placeholder: kTransparentImage,
+                          fit: BoxFit.fill),
+                    ),
+                  ]),
                 ),
                 AspectRatio(
                     aspectRatio: 1 / 1.05,

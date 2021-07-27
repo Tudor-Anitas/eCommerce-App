@@ -15,7 +15,7 @@ class _GlassAddToCartButtonState extends State<GlassAddToCartButton> {
     double windowHeight = MediaQuery.of(context).size.height;
     return Consumer<ItemProvider>(builder: (_, provider, __) {
       bool _isItemInCart =
-          provider.shoppingCart.contains(provider.selectedItem);
+          provider.shoppingCart.keys.contains(provider.selectedItem);
       return GestureDetector(
         onTap: () {
           if (!_isItemInCart) {
@@ -23,8 +23,9 @@ class _GlassAddToCartButtonState extends State<GlassAddToCartButton> {
                 .addToShoppingCart(provider.selectedItem!.id);
             showToast('Product added to shopping cart!',
                 context: context,
+                animDuration: Duration(milliseconds: 150),
                 animation: StyledToastAnimation.slideFromBottom);
-            setState(() {});
+            
           } else {
             Provider.of<ItemProvider>(context, listen: false)
                 .removeFromShoppingCart(provider.selectedItem!.id);
@@ -32,7 +33,7 @@ class _GlassAddToCartButtonState extends State<GlassAddToCartButton> {
                 context: context,
                 animDuration: Duration(milliseconds: 150),
                 animation: StyledToastAnimation.slideFromBottomFade);
-            setState(() {});
+            
           }
         },
         child: Container(

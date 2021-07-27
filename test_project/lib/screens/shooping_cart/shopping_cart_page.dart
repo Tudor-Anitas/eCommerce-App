@@ -27,37 +27,31 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     double windowHeight = MediaQuery.of(context).size.height;
     return SafeArea(
         child: Stack(children: [
-      Image.asset(
-        'home_page_background.jpg',
-        width: windowWidth,
-        height: windowHeight,
-        fit: BoxFit.cover,
-      ),
       BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Consumer<ItemProvider>(builder: (_, provider, __) {
-            totalPrice = 0;
-            provider.shoppingCart.forEach((element) {
-              totalPrice += element.price!;
-            });
             return Scaffold(
               backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                title: Text('Check out'),
+              ),
               body: Container(
                 width: windowWidth,
                 height: windowHeight,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).backgroundColor,
+                    Theme.of(context).scaffoldBackgroundColor
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )),
                 child: Column(
                   children: [
                     Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: windowHeight * 0.03),
-                      child: Text(
-                        'Check out',
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-                    ),
-                    Container(
                       height: windowHeight * 0.77,
-                      width: windowWidth * 0.8,
+                      width: windowWidth,
                       child: ListView.builder(
                           itemCount: provider.shoppingCart.length,
                           itemBuilder: (_, index) {
@@ -65,20 +59,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               key: UniqueKey(),
                               direction: DismissDirection.endToStart,
                               onDismissed: (_) {
-                                setState(() {
-                                  provider.removeFromShoppingCart(provider
-                                      .shoppingCart
-                                      .elementAt(index)
-                                      .id);
-                                  showToast('Product removed from the cart!',
-                                      context: context,
-                                      animDuration: Duration(microseconds: 150),
-                                      animation:
-                                          StyledToastAnimation.slideFromBottom);
-                                });
+                                provider.removeFromShoppingCart(provider
+                                    .shoppingCart.keys
+                                    .elementAt(index)
+                                    .id);
+                                showToast('Product removed from the cart!',
+                                    context: context,
+                                    animDuration: Duration(microseconds: 150),
+                                    animation:
+                                        StyledToastAnimation.slideFromBottom);
                               },
                               child: CartItem(
-                                  provider.shoppingCart.elementAt(index)),
+                                  provider.shoppingCart.keys.elementAt(index)),
                             );
                           }),
                     ),
@@ -88,7 +80,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${totalPrice.toStringAsFixed(2)} lei'),
+                          Text('Total price: ${provider.totalCartPrice!.toStringAsFixed(2)} lei'),
                           CheckOutButton()
                         ],
                       ),

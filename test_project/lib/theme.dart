@@ -5,8 +5,8 @@ class CustomTheme with ChangeNotifier {
   bool isDarkTheme = true;
 
   static ThemeData get darkTheme => ThemeData(
-      scaffoldBackgroundColor: Color(0xff393E46),
-      backgroundColor: Color(0xffFF4B2B),
+      scaffoldBackgroundColor: Color(0xff2657eb),
+      backgroundColor: Color(0xffde6161),
       accentColor: Color(0xff393E46),
       hintColor: Color(0xffEEEEEE),
       cardColor: Color(0xffEEEEEE),
@@ -26,7 +26,11 @@ class CustomTheme with ChangeNotifier {
           subtitle1: TextStyle(
               color: Color(0xffEEEEEE),
               fontSize: 11,
-              fontWeight: FontWeight.w500)));
+              fontWeight: FontWeight.w500)),
+      appBarTheme: AppBarTheme(
+        backgroundColor: Color(0xffde6161) 
+      )        
+      );
 
   static ThemeData get lightTheme => ThemeData(
       scaffoldBackgroundColor: Color(0xffFFF8F0),

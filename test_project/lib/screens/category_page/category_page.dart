@@ -1,10 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/item_provider.dart';
 import 'package:test_project/screens/category_page/item_card.dart';
-import 'package:test_project/screens/category_page/row_filter.dart';
+import 'package:test_project/screens/category_page/filter_row.dart';
+import 'package:test_project/screens/item_details_page/item_details_page.dart';
+import 'package:test_project/screens/shooping_cart/shopping_cart_page.dart';
 
 class CategoryPage extends StatefulWidget {
   CategoryPage({Key? key}) : super(key: key);
@@ -14,65 +17,87 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  double? _windowHeight;
-  double? _windowWidth;
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {});
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _windowHeight = MediaQuery.of(context).size.height;
-    _windowWidth = MediaQuery.of(context).size.width;
-  }
+  double _filterRowSize = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Image.asset(
-        'category_background.jpg',
-        width: _windowWidth,
-        height: _windowHeight,
-        fit: BoxFit.cover,
-      ),
-      BackdropFilter(
+    double windowHeight = MediaQuery.of(context).size.height;
+    double windowWidth = MediaQuery.of(context).size.width;
+
+    return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-              child: Scaffold(
+        child: Consumer<ItemProvider>(
+          builder: (_, provider, __) => Scaffold(
+            appBar: AppBar(
+              title: Text('${provider.selectedCategory}'),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.filter_list, size: 30),
+                  onPressed: () {
+                    setState(() {
+                      if (_filterRowSize == 0.0) {
+                        _filterRowSize = windowHeight * 0.05;
+                      } else {
+                        _filterRowSize = 0;
+                      }
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.shopping_bag, size: 30),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            curve: Curves.easeInOutQuart,
+                            child: ShoppingCartPage()));
+                  },
+                ),
+              ],
+            ),
             backgroundColor: Colors.transparent,
             body: SafeArea(
-              child: Consumer<ItemProvider>(
-                builder: (_, provider, __) => Column(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).backgroundColor,
+                    Theme.of(context).scaffoldBackgroundColor
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )),
+                child: Column(
                   children: [
-                    RowFilter(),
-                    Container(
-                      width: _windowWidth,
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text(provider.selectedCategory!,
-                          style: Theme.of(context).textTheme.headline4),
+                    AnimatedContainer(
+                      height: _filterRowSize,
+                      duration: Duration(milliseconds: 350),
+                      curve: Curves.fastOutSlowIn,
+                      child: FilterRow(),
+                      //child: FilterRow()
                     ),
-                    Container(
-                      height: _windowHeight! * 0.8,
-                      child: GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, childAspectRatio: 0.5),
-                          itemCount: provider.categoryItems.length,
-                          itemBuilder: (_, index) {
-                            return GestureDetector(
-                              onTap: () {},
-                              child: ItemCard(
-                                  provider.categoryItems.elementAt(index)),
-                            );
-                          }),
+                    Expanded(
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 350),
+                        curve: Curves.fastOutSlowIn,
+                        child: GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, childAspectRatio: 0.5),
+                            itemBuilder: (_, index) => GestureDetector(
+                                  onTap: () {},
+                                  child: ItemCard(
+                                      provider.categoryItems.elementAt(index)),
+                                ),
+                            itemCount: provider.categoryItems.length),
+                      ),
                     ),
                   ],
                 ),
               ),
-            )),
-      ),
-    ]);
+            ),
+          ),
+        ));
   }
 }

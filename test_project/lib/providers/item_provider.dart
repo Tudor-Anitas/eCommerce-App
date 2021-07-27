@@ -4,35 +4,40 @@ import 'package:test_project/api_services/images_api.dart';
 import 'package:test_project/models/item_model.dart';
 
 class ItemProvider extends ChangeNotifier {
-  List<ItemModel> _itemList = [];
+  Map<ItemModel, int> _itemMap = Map();
+  Map<ItemModel, int> _shoppingCart = Map();
   List<ItemModel> _categoryItems = [];
-  List<ItemModel> _shoppingCart = [];
   List<String> _categoryList = [];
   List<String> _materialListForSelectedCategory = [];
   List<String> _colorListForSelectedCategory = [];
   String? _selectedCategory;
   ItemModel? _selectedItem;
+  double? _totalCartPrice;
 
-  List<ItemModel> get itemList => _itemList;
+  Map<ItemModel, int> get itemList => _itemMap;
+  Map<ItemModel, int> get shoppingCart => _shoppingCart;
   List<ItemModel> get categoryItems => _categoryItems;
-  List<ItemModel> get shoppingCart => _shoppingCart;
   List<String> get colorListForSelectedCategory =>
       _colorListForSelectedCategory;
   List<String> get materialListForSelectedCategory =>
       _materialListForSelectedCategory;
   String? get selectedCategory => _selectedCategory;
   ItemModel? get selectedItem => _selectedItem;
+  double? get totalCartPrice => _totalCartPrice;
 
   Future<List<String>> updateCategoryList() async {
-    _itemList.clear();
+    _itemMap.clear();
     _categoryList.clear();
+    _categoryItems.clear();
+    _shoppingCart.clear();
+    _totalCartPrice = 0;
     _colorListForSelectedCategory.clear();
     _materialListForSelectedCategory.clear();
-    _itemList = await fetchItemList();
+    _itemMap = await fetchItemList();
     var _itemImages = await fetchItemImages();
     int i = 0;
 
-    _itemList.forEach((element) {
+    _itemMap.forEach((element, value) {
       element.image = _itemImages[i++];
       if (!_categoryList.contains(element.department)) {
         _categoryList.add(element.department!);
@@ -46,9 +51,10 @@ class ItemProvider extends ChangeNotifier {
     _colorListForSelectedCategory.clear();
     _materialListForSelectedCategory.clear();
     _selectedCategory = department;
-    _categoryItems = _itemList
+    _categoryItems = _itemMap.keys
         .where((element) => element.department == _selectedCategory)
         .toList();
+
     _categoryItems.forEach((element) {
       if (!_colorListForSelectedCategory.contains(element.color)) {
         _colorListForSelectedCategory.add(element.color!);
@@ -61,20 +67,27 @@ class ItemProvider extends ChangeNotifier {
   }
 
   setSelectedItem(int? itemId) {
-    _selectedItem =
-        _categoryItems.firstWhere((element) => element.id == itemId);
+    _selectedItem = _itemMap.keys.firstWhere((element) => element.id == itemId);
   }
 
   addToShoppingCart(int? itemId) {
     setSelectedItem(itemId);
-    if (!_shoppingCart.contains(_selectedItem)) {
-      _shoppingCart.add(_selectedItem!);
+    if (!_shoppingCart.keys.contains(_selectedItem) &&
+        _itemMap[_selectedItem]! > 0) {
+      _itemMap[_selectedItem!] = _itemMap[_selectedItem!]! - 1;
+      _shoppingCart[_selectedItem!] = 1;
+      _totalCartPrice = _totalCartPrice! + _selectedItem!.price!;
       notifyListeners();
     }
   }
 
-  removeFromShoppingCart(int? itemId){
-    _shoppingCart.removeWhere((element) => element.id == itemId);
+  removeFromShoppingCart(int? itemId) {
+    setSelectedItem(itemId);
+    _totalCartPrice = _totalCartPrice! -
+        _selectedItem!.price! * _shoppingCart[_selectedItem!]!;
+
+    _shoppingCart.removeWhere((key, value) => key.id == itemId);
+
     notifyListeners();
   }
 
@@ -88,6 +101,24 @@ class ItemProvider extends ChangeNotifier {
     _categoryItems = _categoryItems
         .where((element) => element.material == material)
         .toList();
+    notifyListeners();
+  }
+
+  addQuantityInCart(int? itemId) {
+    setSelectedItem(itemId);
+    if (_itemMap[_selectedItem]! > 0) {
+      _itemMap[_selectedItem!] = _itemMap[_selectedItem!]! - 1;
+      _shoppingCart[_selectedItem!] = _shoppingCart[_selectedItem!]! + 1;
+      _totalCartPrice = _totalCartPrice! + _selectedItem!.price!;
+      notifyListeners();
+    }
+  }
+
+  substractQuantityInCart(int? itemId) {
+    setSelectedItem(itemId);
+    _itemMap[_selectedItem!] = _itemMap[_selectedItem!]! + 1;
+    _shoppingCart[_selectedItem!] = _shoppingCart[_selectedItem!]! - 1;
+    _totalCartPrice = _totalCartPrice! - _selectedItem!.price!;
     notifyListeners();
   }
 }

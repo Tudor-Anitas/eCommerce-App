@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:test_project/screens/category_page/category_page.dart';
 import 'package:test_project/screens/home_page/category_card.dart';
 import 'package:test_project/providers/item_provider.dart';
+import 'package:test_project/screens/shooping_cart/shopping_cart_page.dart';
 
 class CategoryList extends StatefulWidget {
   @override
@@ -17,7 +18,6 @@ class _CategoryListState extends State<CategoryList> {
       onRefresh: () async {
         await Provider.of<ItemProvider>(context, listen: false)
             .updateCategoryList();
-        setState(() {});
       },
       child: FutureBuilder(
         future: Provider.of<ItemProvider>(context, listen: false)
@@ -31,30 +31,49 @@ class _CategoryListState extends State<CategoryList> {
                 child: Text('${snapshot.error}'),
               );
             } else if (snapshot.hasData) {
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Provider.of<ItemProvider>(context, listen: false)
-                            .setSelectedCategory(snapshot.data![index]);
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.fade,
-                                curve: Curves.easeInOutQuart,
-                                child: CategoryPage()));
-                      },
-                      child: CategoryCard(
-                        categoryName: snapshot.data![index],
-                      ),
-                    );
-                  },
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, crossAxisSpacing: 10),
-                ),
+              return CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    floating: true,
+                    pinned: false,
+                    title: Text('Categories'),
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.shopping_bag, size: 30),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  curve: Curves.easeInOutQuart,
+                                  child: ShoppingCartPage()));
+                        },
+                      )
+                    ],
+                  ),
+                  SliverGrid(
+                    delegate: SliverChildBuilderDelegate((_, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Provider.of<ItemProvider>(context, listen: false)
+                              .setSelectedCategory(snapshot.data![index]);
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  child: CategoryPage(),
+                                  type: PageTransitionType.fade));
+                        },
+                        child: CategoryCard(
+                          categoryName: snapshot.data![index],
+                        ),
+                      );
+                    }, childCount: snapshot.data!.length),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, crossAxisSpacing: 10),
+                  ),
+
+                  //
+                ],
               );
             }
           }
