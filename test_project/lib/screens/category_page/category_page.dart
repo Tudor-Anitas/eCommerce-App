@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:test_project/providers/item_provider.dart';
 import 'package:test_project/screens/category_page/item_card.dart';
 import 'package:test_project/screens/category_page/filter_row.dart';
-import 'package:test_project/screens/item_details_page/item_details_page.dart';
 import 'package:test_project/screens/shooping_cart/shopping_cart_page.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -22,7 +21,6 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     double windowHeight = MediaQuery.of(context).size.height;
-    double windowWidth = MediaQuery.of(context).size.width;
 
     return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),

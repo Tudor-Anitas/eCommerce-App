@@ -69,7 +69,7 @@ class _CategoryListState extends State<CategoryList> {
                       );
                     }, childCount: snapshot.data!.length),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, crossAxisSpacing: 10),
+                        crossAxisCount: 2, crossAxisSpacing: 10, childAspectRatio: 1/1.15),
                   ),
 
                   //

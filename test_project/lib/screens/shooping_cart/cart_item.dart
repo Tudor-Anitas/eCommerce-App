@@ -80,10 +80,12 @@ class _CartItemState extends State<CartItem> {
                             size: 10,
                           ),
                           onPressed: () {
-                            if (provider.shoppingCart[widget.currentItem]! > 0) {
+                            if (provider.shoppingCart[widget.currentItem]! >
+                                1) {
                               context
-                                .read<ItemProvider>()
-                                .substractQuantityInCart(widget.currentItem.id);
+                                  .read<ItemProvider>()
+                                  .substractQuantityInCart(
+                                      widget.currentItem.id);
                             }
                           },
                         ),
@@ -91,8 +93,8 @@ class _CartItemState extends State<CartItem> {
                       Expanded(
                         child: Container(
                             alignment: Alignment.center,
-                            child:
-                                Text('${provider.shoppingCart[widget.currentItem]}')),
+                            child: Text(
+                                '${provider.shoppingCart[widget.currentItem]}')),
                       ),
                       Expanded(
                         child: IconButton(

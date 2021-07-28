@@ -3,6 +3,8 @@ import 'package:test_project/api_services/commerce_api.dart';
 import 'package:test_project/api_services/images_api.dart';
 import 'package:test_project/models/item_model.dart';
 
+enum PaymentMethod { credit, wallet }
+
 class ItemProvider extends ChangeNotifier {
   Map<ItemModel, int> _itemMap = Map();
   Map<ItemModel, int> _shoppingCart = Map();
@@ -10,6 +12,7 @@ class ItemProvider extends ChangeNotifier {
   List<String> _categoryList = [];
   List<String> _materialListForSelectedCategory = [];
   List<String> _colorListForSelectedCategory = [];
+  PaymentMethod _paymentMethod = PaymentMethod.credit;
   String? _selectedCategory;
   ItemModel? _selectedItem;
   double? _totalCartPrice;
@@ -21,6 +24,7 @@ class ItemProvider extends ChangeNotifier {
       _colorListForSelectedCategory;
   List<String> get materialListForSelectedCategory =>
       _materialListForSelectedCategory;
+  PaymentMethod get paymentMethod => _paymentMethod;
   String? get selectedCategory => _selectedCategory;
   ItemModel? get selectedItem => _selectedItem;
   double? get totalCartPrice => _totalCartPrice;
@@ -68,6 +72,11 @@ class ItemProvider extends ChangeNotifier {
 
   setSelectedItem(int? itemId) {
     _selectedItem = _itemMap.keys.firstWhere((element) => element.id == itemId);
+  }
+
+  setPaymentMethod(PaymentMethod method) {
+    _paymentMethod = method;
+    notifyListeners();
   }
 
   addToShoppingCart(int? itemId) {
