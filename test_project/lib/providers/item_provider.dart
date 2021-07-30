@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:test_project/api_services/commerce_api.dart';
 import 'package:test_project/api_services/images_api.dart';
+import 'package:test_project/models/credit_card_model.dart';
+import 'package:test_project/models/customer_model.dart';
 import 'package:test_project/models/item_model.dart';
 
 enum PaymentMethod { credit, wallet }
@@ -15,6 +17,7 @@ class ItemProvider extends ChangeNotifier {
   PaymentMethod _paymentMethod = PaymentMethod.credit;
   String? _selectedCategory;
   ItemModel? _selectedItem;
+  CustomerModel? _customer;
   double? _totalCartPrice;
 
   Map<ItemModel, int> get itemList => _itemMap;
@@ -27,9 +30,10 @@ class ItemProvider extends ChangeNotifier {
   PaymentMethod get paymentMethod => _paymentMethod;
   String? get selectedCategory => _selectedCategory;
   ItemModel? get selectedItem => _selectedItem;
+  CustomerModel? get customer => _customer;
   double? get totalCartPrice => _totalCartPrice;
 
-  Future<List<String>> updateCategoryList() async {
+  Future<List<String>> fetchCategoryList() async {
     _itemMap.clear();
     _categoryList.clear();
     _categoryItems.clear();
@@ -129,5 +133,25 @@ class ItemProvider extends ChangeNotifier {
     _shoppingCart[_selectedItem!] = _shoppingCart[_selectedItem!]! - 1;
     _totalCartPrice = _totalCartPrice! - _selectedItem!.price!;
     notifyListeners();
+  }
+
+  addCustomerDetails(String name, String email, String city, String street,
+      String phoneNumber) {
+    _customer = CustomerModel(
+        name: name,
+        email: email,
+        city: city,
+        street: street,
+        phoneNumber: phoneNumber);
+    notifyListeners();
+  }
+
+  addCreditCard(String cardNumber, String expirationDate, String cvv,
+      String cardHolderName) {
+    _customer!.creditCardModel = CreditCardModel(
+        cardHolderName: cardHolderName,
+        cardNumber: cardNumber,
+        cvv: cvv,
+        expirationDate: expirationDate);
   }
 }

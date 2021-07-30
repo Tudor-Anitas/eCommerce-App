@@ -30,13 +30,6 @@ class DetailsCard extends StatelessWidget {
                 )),
             child: Column(
               children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: windowHeight * 0.05),
-                  child: Text(
-                    provider.selectedItem!.productName!,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
                 LabelValueItemDetail(
                     label: 'color', value: provider.selectedItem!.color!),
                 LabelValueItemDetail(

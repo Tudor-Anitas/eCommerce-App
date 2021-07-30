@@ -16,7 +16,8 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  double _filterRowSize = 0.0;
+  //double _filterRowSize = 0.0;
+  bool _displayFilters = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +34,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   icon: Icon(Icons.filter_list, size: 30),
                   onPressed: () {
                     setState(() {
-                      if (_filterRowSize == 0.0) {
-                        _filterRowSize = windowHeight * 0.05;
-                      } else {
-                        _filterRowSize = 0;
-                      }
+                      _displayFilters = !_displayFilters;
                     });
                   },
                 ),
@@ -69,7 +66,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 child: Column(
                   children: [
                     AnimatedContainer(
-                      height: _filterRowSize,
+                      height: _displayFilters ? windowHeight * 0.05 : 0,
                       duration: Duration(milliseconds: 350),
                       curve: Curves.fastOutSlowIn,
                       child: FilterRow(),

@@ -10,11 +10,10 @@ class CustomTheme with ChangeNotifier {
       accentColor: Color(0xff393E46),
       hintColor: Colors.grey,
       cardColor: Color(0xffEEEEEE),
-      toggleableActiveColor: Colors.teal,
       iconTheme: IconThemeData(color: Color(0xffEEEEEE)),
       fontFamily: GoogleFonts.poppins().fontFamily,
       textTheme: TextTheme(
-          headline2: TextStyle(color: Color(0xff2657eb)),
+          headline2: TextStyle(color: Color(0xffEEEEEE)),
           headline4: TextStyle(color: Color(0xffEEEEEE)),
           headline6:
               TextStyle(color: Color(0xffEEEEEE), fontWeight: FontWeight.w700),
@@ -22,6 +21,8 @@ class CustomTheme with ChangeNotifier {
           bodyText1: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
           button: TextStyle(color: Color(0xffEEEEEE)),
+          caption: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
           subtitle2: TextStyle(
               color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
           subtitle1: TextStyle(

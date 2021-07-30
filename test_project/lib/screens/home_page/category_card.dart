@@ -5,17 +5,14 @@ import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
   final String? categoryName;
-  final List<Icon> _icons = [
-    Icon(
-      Icons.code_outlined,
-      size: 70,
-    ),
-    Icon(Icons.receipt_outlined, size: 70),
-    Icon(Icons.supervisor_account_outlined, size: 70),
-    Icon(Icons.hourglass_empty_outlined, size: 70),
-    Icon(Icons.offline_bolt_outlined, size: 70),
-    Icon(Icons.invert_colors_outlined, size: 70),
-    Icon(Icons.anchor_outlined, size: 70)
+  final List<IconData> _icons = [
+    Icons.code_outlined,
+    Icons.receipt_outlined,
+    Icons.supervisor_account_outlined,
+    Icons.hourglass_empty_outlined,
+    Icons.offline_bolt_outlined,
+    Icons.invert_colors_outlined,
+    Icons.anchor_outlined
   ];
 
   CategoryCard({this.categoryName});
@@ -38,8 +35,7 @@ class CategoryCard extends StatelessWidget {
                           left: windowWidth * 0.03, right: windowWidth * 0.03),
                       margin: EdgeInsets.symmetric(
                           horizontal: windowWidth * 0.02,
-                          vertical: windowHeight * 0.01
-                          ),
+                          vertical: windowHeight * 0.01),
                       decoration: BoxDecoration(
                           color: Theme.of(context).cardColor.withOpacity(0.3),
                           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -47,12 +43,17 @@ class CategoryCard extends StatelessWidget {
                             width: 1.5,
                             color: Theme.of(context).cardColor.withOpacity(0.2),
                           )),
-                      child: Container(child: _icons[Random().nextInt(7)])),
+                      child: Container(
+                          child: Icon(
+                        _icons[Random().nextInt(7)],
+                        size: 70,
+                      ))),
                 ),
                 Container(
-                  height: windowHeight * 0.03,
-                    child: Text(categoryName!,
-                        ))
+                    height: windowHeight * 0.03,
+                    child: Text(
+                      categoryName!,
+                    ))
               ],
             ),
           ),

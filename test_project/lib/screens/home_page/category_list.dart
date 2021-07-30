@@ -6,22 +6,22 @@ import 'package:test_project/screens/home_page/category_card.dart';
 import 'package:test_project/providers/item_provider.dart';
 import 'package:test_project/screens/shooping_cart/shopping_cart_page.dart';
 
-class CategoryList extends StatefulWidget {
+class CategoryListWidget extends StatefulWidget {
   @override
-  _CategoryListState createState() => _CategoryListState();
+  _CategoryListWidgetState createState() => _CategoryListWidgetState();
 }
 
-class _CategoryListState extends State<CategoryList> {
+class _CategoryListWidgetState extends State<CategoryListWidget> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
         await Provider.of<ItemProvider>(context, listen: false)
-            .updateCategoryList();
+            .fetchCategoryList();
       },
       child: FutureBuilder(
         future: Provider.of<ItemProvider>(context, listen: false)
-            .updateCategoryList(),
+            .fetchCategoryList(),
         builder: (context, AsyncSnapshot<List<String>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )),
-                child: CategoryList()),
+                child: CategoryListWidget()),
           )),
     );
   }

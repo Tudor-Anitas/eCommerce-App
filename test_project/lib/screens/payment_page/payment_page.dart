@@ -9,69 +9,59 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage>
     with SingleTickerProviderStateMixin {
-  AnimationController? _animationController;
-  @override
-  void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
 
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _animationController!.dispose();
-    super.dispose();
-  }
+  double? _headerHeight;
 
   @override
   Widget build(BuildContext context) {
-    double windowWidth = MediaQuery.of(context).size.width;
+    //double windowWidth = MediaQuery.of(context).size.width;
     double windowHeight = MediaQuery.of(context).size.height;
+    _headerHeight = windowHeight * 0.3;
 
     if (MediaQuery.of(context).viewInsets.bottom != 0) {
-      _animationController!.reverse();
+      _headerHeight = 0;
     } else {
-      _animationController!.forward();
+      _headerHeight = windowHeight * 0.3;
     }
     return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Theme.of(context).backgroundColor,
-            Theme.of(context).scaffoldBackgroundColor
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        )),
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            title: Text('Payment'),
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            centerTitle: true,
-          ),
-          body: Column(
-            children: [
-              SizeTransition(
-                sizeFactor: _animationController!,
-                child: Container(
-                    height: windowHeight * 0.3, child: PaymentHeader()),
-              ),
-              PaymentForm(),
-              Container(
-                alignment: Alignment.center,
-                width: windowWidth * 0.8,
-                height: windowHeight * 0.07,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
-                    borderRadius: BorderRadius.circular(30)),
-                child: Text('Pay'),
-              ),
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [
+              Theme.of(context).backgroundColor,
+              Theme.of(context).scaffoldBackgroundColor
             ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              title: Text('Payment'),
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              centerTitle: true,
+            ),
+            body: Column(
+              children: [
+                AnimatedSize(
+                  vsync: this,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.fastOutSlowIn,
+                  child: Container(
+                      height: _headerHeight, child: PaymentHeader()),
+                ),
+                PaymentForm(),
+              ],
+            ),
           ),
         ),
       ),

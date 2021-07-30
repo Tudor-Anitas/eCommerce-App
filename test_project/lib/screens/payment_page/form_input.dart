@@ -1,70 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pattern_formatter/numeric_formatter.dart';
 
-enum FormInputType {
-  cardNumber,
-  validPeriod,
-  cvv,
-  clientName,
-  city,
-  street,
-  phoneNumber
-}
-
-class FormInput extends StatelessWidget {
+class FormInputField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? inputType;
-  final FormInputType fieldType;
+  final List<TextInputFormatter>? textFormatters;
+  final Icon? icon;
   final String? hint;
+  final validator;
 
-  FormInput(
-      {required this.controller,
-      this.inputType = TextInputType.number,
-      this.hint = '',
-      required this.fieldType});
+  FormInputField({
+    required this.controller,
+    required this.validator,
+    this.inputType = TextInputType.number,
+    this.hint = '',
+    this.textFormatters,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
-    List<TextInputFormatter>? textFormaters = [];
-
-    switch (fieldType) {
-      case FormInputType.cardNumber:
-        textFormaters
-          ..add(LengthLimitingTextInputFormatter(19))
-          ..add(CreditCardFormatter());
-        break;
-      case FormInputType.validPeriod:
-        textFormaters.add(LengthLimitingTextInputFormatter(5));
-        break;
-      case FormInputType.cvv:
-        textFormaters
-          ..add(LengthLimitingTextInputFormatter(3))
-          ..add(FilteringTextInputFormatter.allow(RegExp('[0-9]')));
-        break;
-      case FormInputType.clientName:
-        break;
-      case FormInputType.city:
-        break;
-      case FormInputType.street:
-        break;
-      case FormInputType.phoneNumber:
-        break;
-    }
     return Container(
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(8)),
       child: Row(
         children: [
-          fieldType == FormInputType.cardNumber
-              ? Expanded(
-                  flex: 1,
-                  child: Icon(
-                    Icons.credit_card,
-                    size: 30,
-                    color: Theme.of(context).accentColor,
-                  ))
+          icon != null
+              ? Expanded(flex: 1, child: icon!)
               : Expanded(
                   flex: 0,
                   child: Container(),
@@ -76,9 +39,14 @@ class FormInput extends StatelessWidget {
               style:
                   TextStyle(color: Theme.of(context).accentColor, fontSize: 16),
               keyboardType: inputType,
-              inputFormatters: textFormaters,
+              inputFormatters: textFormatters,
+              validator: validator,
               decoration: InputDecoration(
-                  border: InputBorder.none,
+                  errorStyle: TextStyle(height: 0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide(),
+                  ),
                   hintText: hint,
                   contentPadding: EdgeInsets.symmetric(horizontal: 20)),
             ),
