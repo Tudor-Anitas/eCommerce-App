@@ -5,15 +5,15 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/components/form_validators.dart';
 import 'package:test_project/providers/item_provider.dart';
-import 'package:test_project/screens/payment_page/form_input.dart';
+import 'package:test_project/components/form_input.dart';
 import 'package:test_project/screens/payment_page/payment_page.dart';
 
-class UserDetailsPage extends StatefulWidget {
+class OrderDetailsPage extends StatefulWidget {
   @override
-  _UserDetailsPageState createState() => _UserDetailsPageState();
+  _OrderDetailsPageState createState() => _OrderDetailsPageState();
 }
 
-class _UserDetailsPageState extends State<UserDetailsPage> {
+class _OrderDetailsPageState extends State<OrderDetailsPage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _cityController = TextEditingController();
@@ -111,6 +111,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                     FormInputField(
                       controller: _phoneNumberController,
                       validator: InputValidators().phone,
+                      inputType: TextInputType.number,
                       textFormatters: [
                         FilteringTextInputFormatter.allow(RegExp('[0-9 ]')),
                         LengthLimitingTextInputFormatter(10)

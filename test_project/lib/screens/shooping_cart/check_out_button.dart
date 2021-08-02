@@ -5,7 +5,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/item_provider.dart';
-import 'package:test_project/screens/user_details_page/user_details_page.dart';
+import 'package:test_project/screens/order_details_page/order_details_page.dart';
 
 class CheckOutButton extends StatelessWidget {
   @override
@@ -33,7 +33,7 @@ class CheckOutButton extends StatelessWidget {
                     Navigator.push(
                         context,
                         PageTransition(
-                            child: UserDetailsPage(),
+                            child: OrderDetailsPage(),
                             type: PageTransitionType.fade,
                             duration: Duration(milliseconds: 350)));
                   } else{

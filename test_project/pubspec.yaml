@@ -33,11 +33,15 @@ dependencies:
   google_fonts:
   flutter_styled_toast:
   page_transition:
-  transparent_image:
   pattern_formatter:
+  hive:
+  hive_flutter:
+  flutter_secure_storage:
 
 dev_dependencies:
   flutter_native_splash: ^1.2.0
+  hive_generator:
+  build_runner:
   flutter_test:
     sdk: flutter
 

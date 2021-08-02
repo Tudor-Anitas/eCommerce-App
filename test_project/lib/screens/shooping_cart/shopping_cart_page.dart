@@ -76,6 +76,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                       Container(
                         width: windowWidth * 0.8,
                         height: windowHeight * 0.07,
+                        margin: EdgeInsets.only(top: windowHeight * 0.02),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

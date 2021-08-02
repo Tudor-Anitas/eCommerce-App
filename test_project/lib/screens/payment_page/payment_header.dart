@@ -27,7 +27,7 @@ class _PaymentHeaderState extends State<PaymentHeader> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Total price'),
-            Text('${provider.totalCartPrice} lei',
+            Text('${provider.totalCartPrice!.toStringAsFixed(2)} lei',
                 style: Theme.of(context).textTheme.headline2),
             Container(
                 margin: EdgeInsets.only(bottom: windowHeight * 0.01),

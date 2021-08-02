@@ -4,7 +4,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/item_provider.dart';
-import 'package:test_project/screens/payment_page/form_input.dart';
+import 'package:test_project/components/form_input.dart';
 import 'package:test_project/components/form_validators.dart';
 import 'package:test_project/screens/payment_page/payment_form/text_formatters/expiration_date_formatter.dart';
 
@@ -35,6 +35,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
           FormInputField(
             controller: _cardNumberController,
             validator: InputValidators().creditCardNumber,
+            inputType: TextInputType.number,
             textFormatters: [
               LengthLimitingTextInputFormatter(19),
               CreditCardFormatter()
@@ -59,6 +60,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         Text('Valid until'),
                         FormInputField(
                           controller: _expirationDateController,
+                          inputType: TextInputType.number,
                           validator: InputValidators().cardValidityPeriod,
                           textFormatters: [
                             CardExpirationDateFormatter(),
@@ -77,6 +79,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                         Text('CVV'),
                         FormInputField(
                           controller: _cvvController,
+                          inputType: TextInputType.number,
                           validator: InputValidators().cvv,
                           textFormatters: [
                             LengthLimitingTextInputFormatter(3),

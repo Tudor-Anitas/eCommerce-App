@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:test_project/screens/auth_page/login_page.dart';
 import 'package:test_project/screens/category_page/category_page.dart';
 import 'package:test_project/screens/home_page/category_card.dart';
 import 'package:test_project/providers/item_provider.dart';
 import 'package:test_project/screens/shooping_cart/shopping_cart_page.dart';
+import 'package:test_project/screens/user_account_page/user_account_page.dart';
 
 class CategoryListWidget extends StatefulWidget {
   @override
@@ -39,6 +41,25 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
                     title: Text('Categories'),
                     actions: [
                       IconButton(
+                        icon: Icon(Icons.account_circle_outlined, size: 30),
+                        onPressed: () {
+                          if (Provider.of<ItemProvider>(context, listen: false)
+                              .isUserLoggedIn)
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: UserAccountPage(),
+                                    type: PageTransitionType.fade));
+                          else
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    curve: Curves.easeInOutQuart,
+                                    child: LoginPage()));
+                        },
+                      ),
+                      IconButton(
                         icon: Icon(Icons.shopping_bag, size: 30),
                         onPressed: () {
                           Navigator.push(
@@ -69,7 +90,9 @@ class _CategoryListWidgetState extends State<CategoryListWidget> {
                       );
                     }, childCount: snapshot.data!.length),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, crossAxisSpacing: 10, childAspectRatio: 1/1.15),
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 1 / 1.15),
                   ),
 
                   //

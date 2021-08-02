@@ -19,6 +19,7 @@ class ItemProvider extends ChangeNotifier {
   ItemModel? _selectedItem;
   CustomerModel? _customer;
   double? _totalCartPrice;
+  bool _isUserLoggedIn = false;
 
   Map<ItemModel, int> get itemList => _itemMap;
   Map<ItemModel, int> get shoppingCart => _shoppingCart;
@@ -32,6 +33,7 @@ class ItemProvider extends ChangeNotifier {
   ItemModel? get selectedItem => _selectedItem;
   CustomerModel? get customer => _customer;
   double? get totalCartPrice => _totalCartPrice;
+  bool get isUserLoggedIn => _isUserLoggedIn;
 
   Future<List<String>> fetchCategoryList() async {
     _itemMap.clear();
@@ -53,6 +55,11 @@ class ItemProvider extends ChangeNotifier {
     });
 
     return _categoryList;
+  }
+
+  setUserIsLoggedIn(bool isLoggedIn) {
+    _isUserLoggedIn = isLoggedIn;
+    notifyListeners();
   }
 
   setSelectedCategory(String? department) {
@@ -133,6 +140,11 @@ class ItemProvider extends ChangeNotifier {
     _shoppingCart[_selectedItem!] = _shoppingCart[_selectedItem!]! - 1;
     _totalCartPrice = _totalCartPrice! - _selectedItem!.price!;
     notifyListeners();
+  }
+
+  switchCurrentUser(CustomerModel customer) {
+    _customer = customer;
+    setUserIsLoggedIn(true);
   }
 
   addCustomerDetails(String name, String email, String city, String street,
