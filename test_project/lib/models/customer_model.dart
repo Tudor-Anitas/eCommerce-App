@@ -1,6 +1,7 @@
 
 import 'package:hive_flutter/adapters.dart';
 import 'package:test_project/models/credit_card_model.dart';
+import 'package:test_project/models/item_model.dart';
 
 part 'customer_model.g.dart';
 
@@ -20,6 +21,8 @@ class CustomerModel {
   String? phoneNumber;
   @HiveField(6)
   CreditCardModel? creditCardModel;
+  @HiveField(7)
+  Map<ItemModel, List>? orderHistory;
 
   CustomerModel(
       {this.name,
@@ -28,6 +31,7 @@ class CustomerModel {
       this.city,
       this.street,
       this.phoneNumber,
-      this.creditCardModel});
+      this.creditCardModel,
+      this.orderHistory});
 }
 

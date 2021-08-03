@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 
 Future<Map<ItemModel, int>> fetchItemList() async {
+  // the int defines the stock of the item
   Map<ItemModel, int> apiList = Map();
   try {
     Response response = await http.get(Uri.parse(

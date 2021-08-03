@@ -136,7 +136,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                       _cityController.text.trim(),
                                       _streetController.text.trim(),
                                       _phoneNumberController.text);
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   PageTransition(
                                       child: PaymentPage(),

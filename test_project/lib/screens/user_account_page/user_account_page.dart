@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test_project/providers/item_provider.dart';
+import 'package:test_project/screens/user_account_page/order_item.dart';
 import 'package:test_project/screens/user_account_page/user_credit_card.dart';
 
 class UserAccountPage extends StatefulWidget {
@@ -32,11 +35,25 @@ class _UserAccountPageState extends State<UserAccountPage> {
         body: Container(
           width: windowWidth,
           child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                UserCreditCard()
-              ],
+            child: Consumer<ItemProvider>(
+              builder: (_, provider, __) => Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  UserCreditCard(),
+                  Container(
+                      height: windowHeight * 0.6,
+                      width: windowWidth * 0.8,
+                      margin: EdgeInsets.only(top: windowHeight * 0.05),
+                      child: ListView.builder(
+                          itemCount:
+                              provider.customer?.orderHistory?.length ?? 0,
+                          itemBuilder: (_, index) {
+                            return OrderItem(provider
+                                .customer!.orderHistory!.keys
+                                .elementAt(index));
+                          }))
+                ],
+              ),
             ),
           ),
         ),

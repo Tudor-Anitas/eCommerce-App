@@ -87,7 +87,7 @@ class _CartItemState extends State<CartItem> {
                             size: _iconSize,
                           ),
                           onPressed: () {
-                            if (provider.shoppingCart[widget.currentItem]! >
+                            if (provider.shoppingCart[widget.currentItem]![0] >
                                 1) {
                               context
                                   .read<ItemProvider>()
@@ -101,7 +101,7 @@ class _CartItemState extends State<CartItem> {
                         child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                                '${provider.shoppingCart[widget.currentItem]}')),
+                                '${provider.shoppingCart[widget.currentItem]![0]}')),
                       ),
                       Expanded(
                         child: IconButton(

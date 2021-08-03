@@ -1,4 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:test_project/providers/item_provider.dart';
 
 class WalletForm extends StatefulWidget {
   const WalletForm({Key? key}) : super(key: key);
@@ -25,7 +32,27 @@ class _WalletFormState extends State<WalletForm> {
               color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.circular(30)),
           child: TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                Provider.of<ItemProvider>(context, listen: false)
+                    .addItemsToOrderHistory();
+
+                if (Provider.of<ItemProvider>(context, listen: false).customer!.email !=
+                    null) {
+                  final FlutterSecureStorage secureStorage =
+                      const FlutterSecureStorage();
+                  var encryptionKey =
+                      base64Url.decode((await secureStorage.read(key: 'key'))!);
+                  var box = await Hive.openBox('accounts',
+                      encryptionCipher: HiveAesCipher(encryptionKey));
+                  box.put(Provider.of<ItemProvider>(context, listen: false).customer!.email,
+                      Provider.of<ItemProvider>(context, listen: false).customer!);
+
+                  showToast('Order placed successfully',
+                      context: context,
+                      animDuration: Duration(microseconds: 350),
+                      animation: StyledToastAnimation.slideFromBottomFade);
+                }
+              },
               child: Text(
                 'Finish',
                 style: Theme.of(context).textTheme.button,

@@ -9,7 +9,7 @@ enum PaymentMethod { credit, wallet }
 
 class ItemProvider extends ChangeNotifier {
   Map<ItemModel, int> _itemMap = Map();
-  Map<ItemModel, int> _shoppingCart = Map();
+  Map<ItemModel, List> _shoppingCart = Map();
   List<ItemModel> _categoryItems = [];
   List<String> _categoryList = [];
   List<String> _materialListForSelectedCategory = [];
@@ -22,7 +22,7 @@ class ItemProvider extends ChangeNotifier {
   bool _isUserLoggedIn = false;
 
   Map<ItemModel, int> get itemList => _itemMap;
-  Map<ItemModel, int> get shoppingCart => _shoppingCart;
+  Map<ItemModel, List> get shoppingCart => _shoppingCart;
   List<ItemModel> get categoryItems => _categoryItems;
   List<String> get colorListForSelectedCategory =>
       _colorListForSelectedCategory;
@@ -30,6 +30,7 @@ class ItemProvider extends ChangeNotifier {
       _materialListForSelectedCategory;
   PaymentMethod get paymentMethod => _paymentMethod;
   String? get selectedCategory => _selectedCategory;
+  List<String>? get categoryList => _categoryList;
   ItemModel? get selectedItem => _selectedItem;
   CustomerModel? get customer => _customer;
   double? get totalCartPrice => _totalCartPrice;
@@ -95,7 +96,9 @@ class ItemProvider extends ChangeNotifier {
     if (!_shoppingCart.keys.contains(_selectedItem) &&
         _itemMap[_selectedItem]! > 0) {
       _itemMap[_selectedItem!] = _itemMap[_selectedItem!]! - 1;
-      _shoppingCart[_selectedItem!] = 1;
+      _shoppingCart[_selectedItem!] = [];
+      _shoppingCart[_selectedItem!]!.add(1);
+      _shoppingCart[_selectedItem!]!.add(DateTime.now().toString());
       _totalCartPrice = _totalCartPrice! + _selectedItem!.price!;
       notifyListeners();
     }
@@ -104,7 +107,7 @@ class ItemProvider extends ChangeNotifier {
   removeFromShoppingCart(int? itemId) {
     setSelectedItem(itemId);
     _totalCartPrice = _totalCartPrice! -
-        _selectedItem!.price! * _shoppingCart[_selectedItem!]!;
+        _selectedItem!.price! * _shoppingCart[_selectedItem!]![0];
 
     _shoppingCart.removeWhere((key, value) => key.id == itemId);
 
@@ -128,7 +131,7 @@ class ItemProvider extends ChangeNotifier {
     setSelectedItem(itemId);
     if (_itemMap[_selectedItem]! > 0) {
       _itemMap[_selectedItem!] = _itemMap[_selectedItem!]! - 1;
-      _shoppingCart[_selectedItem!] = _shoppingCart[_selectedItem!]! + 1;
+      _shoppingCart[_selectedItem!]![0] = _shoppingCart[_selectedItem!]![0] + 1;
       _totalCartPrice = _totalCartPrice! + _selectedItem!.price!;
       notifyListeners();
     }
@@ -137,7 +140,7 @@ class ItemProvider extends ChangeNotifier {
   substractQuantityInCart(int? itemId) {
     setSelectedItem(itemId);
     _itemMap[_selectedItem!] = _itemMap[_selectedItem!]! + 1;
-    _shoppingCart[_selectedItem!] = _shoppingCart[_selectedItem!]! - 1;
+    _shoppingCart[_selectedItem!]![0] = _shoppingCart[_selectedItem!]![0] - 1;
     _totalCartPrice = _totalCartPrice! - _selectedItem!.price!;
     notifyListeners();
   }
@@ -145,6 +148,7 @@ class ItemProvider extends ChangeNotifier {
   switchCurrentUser(CustomerModel customer) {
     _customer = customer;
     setUserIsLoggedIn(true);
+    notifyListeners();
   }
 
   addCustomerDetails(String name, String email, String city, String street,
@@ -152,6 +156,7 @@ class ItemProvider extends ChangeNotifier {
     _customer = CustomerModel(
         name: name,
         email: email,
+        password: _customer?.password ?? ' ',
         city: city,
         street: street,
         phoneNumber: phoneNumber);
@@ -165,5 +170,10 @@ class ItemProvider extends ChangeNotifier {
         cardNumber: cardNumber,
         cvv: cvv,
         expirationDate: expirationDate);
+  }
+
+  addItemsToOrderHistory() {
+    _customer!.orderHistory!.addAll(_shoppingCart);
+    notifyListeners();
   }
 }

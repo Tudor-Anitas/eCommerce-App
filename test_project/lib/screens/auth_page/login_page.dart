@@ -82,21 +82,24 @@ class _LoginPageState extends State<LoginPage> {
                           .decode((await secureStorage.read(key: 'key'))!);
                       var box = await Hive.openBox('accounts',
                           encryptionCipher: HiveAesCipher(encryptionKey));
-                      CustomerModel currentUser =
-                          box.get(_emailController.text.trim());
-                      if (currentUser.password ==
-                          _passwordController.text.trim()) {
-                        Provider.of<ItemProvider>(context, listen: false)
-                            .switchCurrentUser(currentUser);
-                        Navigator.pushReplacement(
-                            context,
-                            PageTransition(
-                                child: UserAccountPage(),
-                                type: PageTransitionType.fade));
-                      } else {
-                        showToast('Incorrect email or password!',
-                            context: context,
-                            animation: StyledToastAnimation.slideFromBottom);
+                      if (box.get(_emailController.text.trim()) != null) {
+                        CustomerModel currentUser =
+                            box.get(_emailController.text.trim());
+                            
+                        if (currentUser.password ==
+                            _passwordController.text.trim()) {
+                          Provider.of<ItemProvider>(context, listen: false)
+                              .switchCurrentUser(currentUser);
+                          Navigator.pushReplacement(
+                              context,
+                              PageTransition(
+                                  child: UserAccountPage(),
+                                  type: PageTransitionType.fade));
+                        } else {
+                          showToast('Incorrect email or password!',
+                              context: context,
+                              animation: StyledToastAnimation.slideFromBottom);
+                        }
                       }
                     },
                     child: Text(

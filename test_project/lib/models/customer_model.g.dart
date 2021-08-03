@@ -24,13 +24,14 @@ class CustomerModelAdapter extends TypeAdapter<CustomerModel> {
       street: fields[4] as String?,
       phoneNumber: fields[5] as String?,
       creditCardModel: fields[6] as CreditCardModel?,
+      orderHistory: (fields[7] as Map?)?.cast<ItemModel, List>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, CustomerModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class CustomerModelAdapter extends TypeAdapter<CustomerModel> {
       ..writeByte(5)
       ..write(obj.phoneNumber)
       ..writeByte(6)
-      ..write(obj.creditCardModel);
+      ..write(obj.creditCardModel)
+      ..writeByte(7)
+      ..write(obj.orderHistory);
   }
 
   @override

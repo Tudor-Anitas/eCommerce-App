@@ -15,6 +15,7 @@ class CustomTheme with ChangeNotifier {
       textTheme: TextTheme(
           headline2: TextStyle(color: Color(0xffEEEEEE)),
           headline4: TextStyle(color: Color(0xffEEEEEE)),
+          headline5: TextStyle(color: Color(0xffEEEEEE), fontSize: 30),
           headline6:
               TextStyle(color: Color(0xffEEEEEE), fontWeight: FontWeight.w700),
           bodyText2: TextStyle(color: Color(0xffEEEEEE)),

@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/item_provider.dart';
 import 'package:test_project/screens/order_details_page/order_details_page.dart';
+import 'package:test_project/screens/payment_page/payment_page.dart';
 
 class CheckOutButton extends StatelessWidget {
   @override
@@ -30,19 +31,27 @@ class CheckOutButton extends StatelessWidget {
             builder: (_, provider, __) => TextButton(
                 onPressed: () {
                   if (!provider.shoppingCart.isEmpty) {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            child: OrderDetailsPage(),
-                            type: PageTransitionType.fade,
-                            duration: Duration(milliseconds: 350)));
-                  } else{
+                    if (provider.customer == null) {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: OrderDetailsPage(),
+                              type: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 350)));
+                    } else {
+                      Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                              child: PaymentPage(),
+                              type: PageTransitionType.fade,
+                              duration: Duration(milliseconds: 350)));
+                    }
+                  } else {
                     showToast('You must add items in your cart to continue',
-                                  context: context,
-                                  animDuration: Duration(microseconds: 350),
-                                  position: StyledToastPosition.center,
-                                  animation:
-                                      StyledToastAnimation.fade);
+                        context: context,
+                        animDuration: Duration(microseconds: 350),
+                        position: StyledToastPosition.center,
+                        animation: StyledToastAnimation.fade);
                   }
                 },
                 child: Text(

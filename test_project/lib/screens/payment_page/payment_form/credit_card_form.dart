@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:test_project/providers/item_provider.dart';
@@ -115,16 +119,42 @@ class _CreditCardFormState extends State<CreditCardForm> {
                 color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.circular(30)),
             child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState != null &&
-                      _formKey.currentState!.validate())
+                      _formKey.currentState!.validate()) {
                     Provider.of<ItemProvider>(context, listen: false)
-                        .addCreditCard(
-                            _cardNumberController.text.trim(),
-                            _expirationDateController.text,
-                            _cvvController.text,
-                            _cardHolderController.text.trim());
-                  else {
+                      ..addCreditCard(
+                          _cardNumberController.text.trim(),
+                          _expirationDateController.text,
+                          _cvvController.text,
+                          _cardHolderController.text.trim())
+                      ..addItemsToOrderHistory();
+
+                    if (Provider.of<ItemProvider>(context, listen: false).customer!.email !=
+                        null) {
+                      final FlutterSecureStorage secureStorage =
+                          const FlutterSecureStorage();
+                      var encryptionKey = base64Url
+                          .decode((await secureStorage.read(key: 'key'))!);
+                      var box = await Hive.openBox('accounts',
+                          encryptionCipher: HiveAesCipher(encryptionKey));
+                      box.put(
+                          Provider.of<ItemProvider>(context, listen: false)
+                              .customer!
+                              .email,
+                          Provider.of<ItemProvider>(context, listen: false)
+                              .customer!);
+
+                      showToast('Order placed successfully',
+                          context: context,
+                          animDuration: Duration(microseconds: 350),
+                          animation: StyledToastAnimation.slideFromBottomFade);
+                      _cardHolderController.clear();
+                      _cardNumberController.clear();
+                      _expirationDateController.clear();
+                      _cvvController.clear();
+                    }
+                  } else {
                     showToast('Incorrect data given',
                         context: context,
                         animDuration: Duration(microseconds: 350),
