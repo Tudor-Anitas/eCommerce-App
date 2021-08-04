@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:test_project/models/credit_card_model.dart';
 import 'package:test_project/models/item_model.dart';
 import 'package:test_project/providers/item_provider.dart';
+import 'package:test_project/screens/auth_page/login_page.dart';
 import 'package:test_project/screens/home_page/home_page.dart';
 import 'package:test_project/theme.dart';
 
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: Provider.of<CustomTheme>(context).currentTheme,
-        home: HomePage(),
+        //home: HomePage(),
+        home: LoginPage()
       ),
     );
   }

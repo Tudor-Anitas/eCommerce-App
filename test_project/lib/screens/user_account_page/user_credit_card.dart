@@ -13,11 +13,13 @@ class UserCreditCard extends StatelessWidget {
     3: [Color(0xff000046), Color(0xff1CB5E0)],
   };
 
+  final int randomGradientNumber = Random().nextInt(4);
+
   @override
   Widget build(BuildContext context) {
     double windowWidth = MediaQuery.of(context).size.width;
     double windowHeight = MediaQuery.of(context).size.height;
-    int randomGradientNumber = Random().nextInt(4);
+
     return ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: BackdropFilter(

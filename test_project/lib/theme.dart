@@ -7,7 +7,7 @@ class CustomTheme with ChangeNotifier {
   static ThemeData get darkTheme => ThemeData(
       scaffoldBackgroundColor: Color(0xff2657eb),
       backgroundColor: Color(0xffde6161),
-      accentColor: Color(0xff393E46),
+      accentColor: Color(0xff181818),
       hintColor: Colors.grey,
       cardColor: Color(0xffEEEEEE),
       iconTheme: IconThemeData(color: Color(0xffEEEEEE)),

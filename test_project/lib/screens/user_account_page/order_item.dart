@@ -5,10 +5,18 @@ import 'package:provider/provider.dart';
 import 'package:test_project/models/item_model.dart';
 import 'package:test_project/providers/item_provider.dart';
 
-class OrderItem extends StatelessWidget {
+class OrderItem extends StatefulWidget {
   final ItemModel? _currentItem;
   
   OrderItem(this._currentItem);
+
+  @override
+  _OrderItemState createState() => _OrderItemState();
+}
+
+class _OrderItemState extends State<OrderItem> {
+
+  double? totalSum;
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +48,12 @@ class OrderItem extends StatelessWidget {
                     width: windowWidth * 0.3,
                     child: Text(Provider.of<ItemProvider>(context, listen: false)
                         .customer!
-                        .orderHistory![_currentItem]![1]
+                        .orderHistory![widget._currentItem]![1]
                         .toString(), overflow: TextOverflow.ellipsis,),
                   ),
                 ],
               )),
-              Text('1000 RON')
+              Text('${widget._currentItem!.price!.round().toString()} RON')
             ],
           ),
         ),

@@ -1,4 +1,3 @@
-
 import 'package:hive_flutter/adapters.dart';
 import 'package:test_project/models/credit_card_model.dart';
 import 'package:test_project/models/item_model.dart';
@@ -34,4 +33,3 @@ class CustomerModel {
       this.creditCardModel,
       this.orderHistory});
 }
-

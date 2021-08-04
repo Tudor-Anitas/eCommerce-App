@@ -3,6 +3,7 @@ import 'package:test_project/screens/payment_page/payment_form/payment_form.dart
 import 'package:test_project/screens/payment_page/payment_header.dart';
 
 class PaymentPage extends StatefulWidget {
+
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }

@@ -170,6 +170,7 @@ class ItemProvider extends ChangeNotifier {
         cardNumber: cardNumber,
         cvv: cvv,
         expirationDate: expirationDate);
+    notifyListeners();
   }
 
   addItemsToOrderHistory() {
